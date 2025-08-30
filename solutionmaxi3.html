@@ -1,0 +1,1823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solution Maxi - Premium Tech & IT Services</title>
+    <meta name="description" content="Solution Maxi - Algeria's leading provider of premium computers, laptops, mobiles, and expert IT services since 2006.">
+    <meta name="keywords" content="Solution Maxi, computers Algeria, laptops Dely Brahim, IT services, tech store, web development">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+
+    <!-- Google Fonts: Poppins & Roboto Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Feather Icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <style>
+        /* CSS RESET & ROOT VARIABLES */
+        :root {
+            --primary-color: #FF7A00;
+            --primary-color-glow: rgba(255, 122, 0, 0.7);
+            --secondary-color: #0B0B0B;
+            --text-light: #E0E0E0;
+            --text-dark: #1a1a1a;
+            --bg-light: #F5F5F5;
+            --bg-dark: #0D0D0D;
+            --glass-light: rgba(255, 255, 255, 0.1);
+            --glass-border-light: rgba(255, 255, 255, 0.2);
+            --glass-dark: rgba(20, 20, 20, 0.2);
+            --glass-border-dark: rgba(40, 40, 40, 0.3);
+            --font-main: 'Poppins', sans-serif;
+            --font-mono: 'Roboto Mono', monospace;
+            --transition-speed: 0.3s;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .dark-mode {
+            --secondary-color: #F5F5F5;
+            --text-light: #0B0B0B;
+            --bg-light: #0D0D0D;
+            --bg-dark: #F5F5F5;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-light);
+            color: var(--secondary-color);
+            transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+            overflow-x: hidden;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-light);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #e06c00;
+        }
+        
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 600;
+            line-height: 1.2;
+        }
+        h1 { font-size: 3.5rem; }
+        h2 { font-size: 2.5rem; }
+        h3 { font-size: 1.75rem; }
+        p { line-height: 1.6; color: #a0a0a0; }
+        a { color: var(--primary-color); text-decoration: none; }
+
+        /* Utility Classes */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .section {
+            padding: 100px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+        .section-title h2 {
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        .section-title p {
+            font-family: var(--font-mono);
+            color: var(--primary-color);
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all var(--transition-speed) ease;
+            border: 2px solid transparent;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        .btn-primary {
+            background: var(--primary-color);
+            color: #fff;
+            box-shadow: 0 0 15px var(--primary-color-glow);
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 25px var(--primary-color-glow);
+        }
+        .btn-secondary {
+            background: transparent;
+            color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+        .btn-secondary:hover {
+            background: var(--secondary-color);
+            color: var(--bg-light);
+        }
+        
+        /* Loading Spinner & Progress Bar */
+        #loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 5px solid rgba(255, 122, 0, 0.2);
+            border-top-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        #progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--primary-color);
+            width: 0%;
+            z-index: 9998;
+            transition: width 0.2s;
+        }
+
+        /* Animated Canvas Background */
+        /* #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        } */
+
+        /* Header & Navbar */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: all var(--transition-speed) ease;
+            padding: 25px 0;
+        }
+        .header.scrolled {
+            background: rgba(13, 13, 13, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #fff;
+        }
+        .logo span {
+            color: var(--primary-color);
+        }
+        .nav-links {
+            list-style: none;
+            display: flex;
+        }
+        .nav-links li {
+            margin: 0 20px;
+        }
+        .nav-links a {
+            color: #fff;
+            font-weight: 500;
+            position: relative;
+            padding: 5px 0;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transition: width var(--transition-speed) ease;
+        }
+        .nav-links a.active::after, .nav-links a:hover::after {
+            width: 100%;
+        }
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .nav-actions .icon-btn {
+            background: transparent;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            position: relative;
+            padding: 5px;
+        }
+        .nav-actions .icon-btn .feather {
+            transition: transform var(--transition-speed) ease;
+        }
+        .nav-actions .icon-btn:hover .feather {
+            transform: scale(1.1);
+            stroke: var(--primary-color);
+        }
+        .cart-badge, .wishlist-badge {
+            position: absolute;
+            top: -5px;
+            right: -8px;
+            background: var(--primary-color);
+            color: #fff;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+        #menu-toggle { display: none; }
+
+        /* Hero Section */
+        #home {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            color: #fff;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1614091199321-4a88944510b6?q=80&w=2070&auto=format&fit=crop') no-repeat center center/cover;
+            position: relative;
+        }
+        .hero-content {
+            max-width: 650px;
+            text-align: left;
+        }
+        .hero-content h1 {
+            font-size: 4.5rem;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        .hero-content .highlight {
+            color: var(--primary-color);
+        }
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            max-width: 500px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        .hero-content .btn {
+            padding: 15px 35px;
+            font-size: 1.1rem;
+        }
+
+        /* Section Backgrounds */
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(13, 13, 13, 0.7);
+            z-index: -1;
+        }
+
+        #about {
+            background: url('https://images.unsplash.com/photo-1531297484001-80022131c5a0?q=80&w=2020&auto=format&fit=crop') no-repeat center center/cover;
+            background-attachment: fixed;
+        }
+
+        #services {
+             background: url('https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=2070&auto=format&fit=crop') no-repeat center center/cover;
+             background-attachment: fixed;
+        }
+
+        #products {
+             background: url('https://images.unsplash.com/photo-1605379399642-870262d3d051?q=80&w=2106&auto=format&fit=crop') no-repeat center center/cover;
+             background-attachment: fixed;
+        }
+         #contact {
+             background: url('https://images.unsplash.com/photo-1587560699334-cc4ff6349094?q=80&w=2070&auto=format&fit=crop') no-repeat center center/cover;
+             background-attachment: fixed;
+        }
+
+        #about .about-content, #about .stat-item,
+        #services .service-card,
+        #products .product-card, #products .product-filters,
+        #contact .contact-info, #contact .contact-form {
+            color: #fff;
+        }
+        
+        #about p, #services p, #products p, #contact p { color: #ccc; }
+        #about h2, #services h2, #products h2, #contact h3,
+        #about .stat-item p, #services h3, #products h4 { color: #fff; }
+
+
+        /* About Section */
+        #about .container {
+            display: flex;
+            gap: 60px;
+            align-items: center;
+        }
+        .about-content, .about-stats {
+            flex: 1;
+        }
+        .about-content h2 {
+            margin-bottom: 20px;
+        }
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+        }
+        .stat-item {
+            background: var(--glass-dark);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid var(--glass-border-dark);
+        }
+        .stat-item .counter {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        .stat-item p {
+            color: var(--secondary-color);
+            font-family: var(--font-mono);
+        }
+
+        /* Services Section */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        .service-card {
+            background: var(--bg-light);
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid var(--glass-border-dark);
+            transition: all var(--transition-speed) ease;
+        }
+        .dark-mode .service-card {
+            background: #1a1a1a;
+        }
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 0 30px var(--primary-color-glow);
+            border-color: var(--primary-color);
+        }
+        .service-card .icon {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        .service-card h3 {
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+        }
+
+        /* Products Section */
+        .product-filters {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .filter-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        .filter-btn {
+            background: transparent;
+            border: 1px solid var(--secondary-color);
+            color: var(--secondary-color);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all var(--transition-speed) ease;
+        }
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--primary-color);
+            color: #fff;
+            border-color: var(--primary-color);
+        }
+        .search-box {
+            position: relative;
+        }
+        #search-input {
+            padding: 10px 15px;
+            border-radius: 20px;
+            border: 1px solid var(--glass-border-dark);
+            background: var(--glass-dark);
+            color: var(--secondary-color);
+            padding-right: 40px;
+        }
+        .search-box .feather {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #a0a0a0;
+        }
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 25px;
+        }
+        .product-card {
+            background: var(--glass-light);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border-light);
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+            transition: all var(--transition-speed) ease;
+        }
+        .dark-mode .product-card {
+             background: var(--glass-dark);
+             border-color: var(--glass-border-dark);
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            border-color: var(--primary-color);
+        }
+        .product-image {
+            height: 180px;
+            overflow: hidden;
+            position: relative;
+        }
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .product-card:hover .product-image img {
+            transform: scale(1.1);
+        }
+        .product-badges {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            display: flex;
+            gap: 5px;
+        }
+        .badge {
+            font-size: 0.7rem;
+            padding: 3px 8px;
+            border-radius: 10px;
+            color: #fff;
+            font-weight: bold;
+        }
+        .badge.new { background: #3498db; }
+        .wishlist-btn-card {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.5);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+        .wishlist-btn-card.active {
+            color: #e74c3c;
+        }
+        .product-info {
+            padding: 15px;
+        }
+        .product-category {
+            font-size: 0.8rem;
+            color: #a0a0a0;
+            margin-bottom: 5px;
+        }
+        .product-title {
+            font-size: 1rem;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 10px;
+            color: var(--secondary-color);
+        }
+        .product-price {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        .product-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+        .product-actions .btn {
+            font-size: 0.8rem;
+            padding: 8px 15px;
+        }
+        
+        /* Contact Section */
+        #contact .container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 60px;
+        }
+        .contact-info, .contact-form {
+            padding: 40px;
+            background: var(--glass-dark);
+            border-radius: 15px;
+            border: 1px solid var(--glass-border-dark);
+        }
+        .contact-info h3, .contact-form h3 { margin-bottom: 30px; }
+        .info-item { display: flex; align-items: center; gap: 20px; margin-bottom: 25px; }
+        .info-item .icon { color: var(--primary-color); }
+        .info-item a { color: var(--secondary-color); }
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            background: var(--glass-light);
+            border: 1px solid var(--glass-border-light);
+            border-radius: 10px;
+            color: var(--secondary-color);
+            transition: border-color var(--transition-speed);
+        }
+        .dark-mode .form-group input, .dark-mode .form-group textarea {
+             background: var(--glass-dark);
+             border-color: var(--glass-border-dark);
+        }
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 10px var(--primary-color-glow);
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(13, 13, 13, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 60px 0 30px;
+            color: #a0a0a0;
+        }
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        .footer-col h4 {
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        .footer-col ul { list-style: none; }
+        .footer-col li { margin-bottom: 10px; }
+        .footer-col a:hover { color: var(--primary-color); }
+        .social-links a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            border: 1px solid var(--primary-color);
+            border-radius: 50%;
+            margin-right: 10px;
+            color: var(--primary-color);
+        }
+        .social-links a:hover {
+            background: var(--primary-color);
+            color: #fff;
+        }
+        .footer-bottom {
+            text-align: center;
+            border-top: 1px solid var(--glass-border-dark);
+            padding-top: 30px;
+        }
+        
+        /* Side Panels (Cart, Wishlist) */
+        .side-panel {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 400px;
+            height: 100%;
+            background: var(--bg-light);
+            z-index: 1050;
+            box-shadow: -10px 0 30px rgba(0,0,0,0.2);
+            transition: right var(--transition-speed) ease;
+            display: flex;
+            flex-direction: column;
+        }
+        .side-panel.open {
+            right: 0;
+        }
+        .panel-header {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--glass-border-dark);
+        }
+        .panel-body {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        .panel-footer {
+            padding: 20px;
+            border-top: 1px solid var(--glass-border-dark);
+        }
+        .cart-item, .wishlist-item {
+            display: flex;
+            margin-bottom: 20px;
+            gap: 15px;
+        }
+        .cart-item-img, .wishlist-item-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .cart-item-img img, .wishlist-item-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .cart-item-info, .wishlist-item-info { flex: 1; }
+        .quantity-controls { display: flex; align-items: center; gap: 5px; margin-top: 5px; }
+        .cart-total { display: flex; justify-content: space-between; font-size: 1.2rem; font-weight: bold; margin-bottom: 20px;}
+        
+        /* Modals */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1100;
+            opacity: 0;
+            visibility: hidden;
+            transition: all var(--transition-speed) ease;
+        }
+        .modal-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-container {
+            background: var(--bg-light);
+            border-radius: 15px;
+            padding: 30px;
+            width: 90%;
+            max-width: 800px;
+            transform: scale(0.9);
+            transition: transform var(--transition-speed) ease;
+            position: relative;
+        }
+        .modal-overlay.open .modal-container {
+            transform: scale(1);
+        }
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--secondary-color);
+        }
+        .quick-view-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        .quick-view-images img {
+            width: 100%;
+            border-radius: 10px;
+        }
+        
+        /* Scroll to Top Button */
+        #scroll-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--primary-color);
+            color: #fff;
+            border-radius: 50%;
+            border: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all var(--transition-speed) ease;
+            z-index: 999;
+        }
+        #scroll-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        /* Animation on Scroll */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s, transform 0.8s;
+        }
+        .reveal.in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* RTL Support */
+        [dir="rtl"] { text-align: right; }
+        [dir="rtl"] .nav-links li { margin: 0 0 0 40px; }
+        [dir="rtl"] .hero-content { text-align: right; }
+        [dir="rtl"] #about .container { flex-direction: row-reverse; }
+        [dir="rtl"] .info-item { flex-direction: row-reverse; }
+        [dir="rtl"] .form-group input, .form-group textarea { text-align: right; }
+        [dir="rtl"] .side-panel { left: -100%; right: auto; }
+        [dir="rtl"] .side-panel.open { left: 0; }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .nav-links {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(13, 13, 13, 0.95);
+                flex-direction: column;
+                text-align: center;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.5s ease-in-out;
+            }
+            .nav-links.active { max-height: 500px; }
+            .nav-links li { margin: 15px 0; }
+            #menu-toggle {
+                display: block;
+                background: none;
+                border: none;
+                color: #fff;
+                cursor: pointer;
+            }
+            #about .container, #contact .container { grid-template-columns: 1fr; }
+            .hero-content h1 { font-size: 3rem; }
+            .footer-content { grid-template-columns: 1fr 1fr; }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 2.5rem; }
+            .section { padding: 80px 0; }
+            .quick-view-content { grid-template-columns: 1fr; }
+            .side-panel { width: 100%; }
+        }
+        
+        @media (max-width: 576px) {
+            .product-filters { flex-direction: column; align-items: stretch; }
+            .products-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+            .product-info { padding: 10px; }
+            .product-title { font-size: 0.9rem; }
+            .product-price { font-size: 1rem; }
+            .product-actions .btn { font-size: 0.7rem; padding: 6px 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay">
+        <div class="spinner"></div>
+    </div>
+    
+    <!-- Progress Bar -->
+    <div id="progress-bar"></div>
+    
+    <!-- Animated Background -->
+    <!-- <canvas id="particle-canvas"></canvas> -->
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container navbar">
+            <a href="#" class="logo">Solution<span>Maxi</span></a>
+            <nav>
+                <ul class="nav-links" id="nav-links">
+                    <li><a href="#home" class="nav-link active" data-lang="nav_home">Home</a></li>
+                    <li><a href="#about" class="nav-link" data-lang="nav_about">About</a></li>
+                    <li><a href="#services" class="nav-link" data-lang="nav_services">Services</a></li>
+                    <li><a href="#products" class="nav-link" data-lang="nav_products">Products</a></li>
+                    <li><a href="#contact" class="nav-link" data-lang="nav_contact">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="nav-actions">
+                <button class="icon-btn" id="wishlist-btn"><i data-feather="heart"></i><span class="wishlist-badge">0</span></button>
+                <button class="icon-btn" id="cart-btn"><i data-feather="shopping-cart"></i><span class="cart-badge">0</span></button>
+                <button class="icon-btn" id="theme-toggle-btn"><i data-feather="moon"></i></button>
+                <button class="icon-btn" id="lang-toggle-btn">AR</button>
+                <button class="icon-btn" id="menu-toggle"><i data-feather="menu"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="section">
+            <div class="container">
+                <div class="hero-content reveal">
+                    <h1 data-lang="hero_title">Powering Your <span class="highlight">Future</span>, Today.</h1>
+                    <p data-lang="hero_subtitle">Your premium destination in Algeria for the latest in tech and expert IT solutions, shaping innovation since 2006.</p>
+                    <a href="#products" class="btn btn-primary" data-lang="hero_cta">Explore Products</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="section">
+            <div class="container">
+                <div class="about-content reveal">
+                    <div class="section-title" style="text-align: left;">
+                        <p data-lang="about_tag">Since 2006</p>
+                        <h2 data-lang="about_title">19 Years of Tech Excellence</h2>
+                    </div>
+                    <p data-lang="about_desc1">Founded in Dely Brahim, Algeria, Solution Maxi began as a vision to bring world-class technology and IT services to our community. For nearly two decades, we've been at the forefront of the digital revolution, empowering businesses and individuals with cutting-edge solutions and unwavering support.</p>
+                    <p data-lang="about_desc2">Our journey is one of passion, innovation, and a deep commitment to customer satisfaction. We don't just sell products; we build long-lasting relationships based on trust and expertise.</p>
+                </div>
+                <div class="about-stats reveal">
+                    <div class="stat-item">
+                        <h3 class="counter" data-target="15000">0</h3>
+                        <p data-lang="about_stat1">Happy Clients</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3 class="counter" data-target="50000">0</h3>
+                        <p data-lang="about_stat2">Products Sold</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3 class="counter" data-target="25">0</h3>
+                        <p data-lang="about_stat3">IT Experts</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3 class="counter" data-target="19">0</h3>
+                        <p data-lang="about_stat4">Years in Business</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Services Section -->
+        <section id="services" class="section">
+            <div class="container">
+                <div class="section-title reveal">
+                    <p data-lang="services_tag">Our Expertise</p>
+                    <h2 data-lang="services_title">Comprehensive IT Solutions</h2>
+                </div>
+                <div class="services-grid">
+                    <div class="service-card reveal">
+                        <i class="icon" data-feather="tool" width="48" height="48"></i>
+                        <h3 data-lang="service1_title">IT Repair & Support</h3>
+                        <p data-lang="service1_desc">Fast, reliable diagnostics and repairs for all your devices. Our experts are ready to solve any tech issue.</p>
+                    </div>
+                    <div class="service-card reveal">
+                        <i class="icon" data-feather="server" width="48" height="48"></i>
+                        <h3 data-lang="service2_title">Networking Solutions</h3>
+                        <p data-lang="service2_desc">From home WiFi setups to complex corporate networks, we ensure seamless and secure connectivity.</p>
+                    </div>
+                    <div class="service-card reveal">
+                        <i class="icon" data-feather="cpu" width="48" height="48"></i>
+                        <h3 data-lang="service3_title">Custom PC Builds</h3>
+                        <p data-lang="service3_desc">Dream it, we build it. High-performance custom PCs for gaming, design, and professional workloads.</p>
+                    </div>
+                    <div class="service-card reveal">
+                        <i class="icon" data-feather="code" width="48" height="48"></i>
+                        <h3 data-lang="service4_title">Web Development</h3>
+                        <p data-lang="service4_desc">Modern, responsive, and powerful websites to elevate your online presence and grow your business.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Products Section -->
+        <section id="products" class="section">
+            <div class="container">
+                 <div class="section-title reveal">
+                    <p data-lang="products_tag">Our Collection</p>
+                    <h2 data-lang="products_title">Featured Technology</h2>
+                </div>
+                <div class="product-filters reveal">
+                    <div class="filter-controls">
+                        <button class="filter-btn active" data-filter="all" data-lang="filter_all">All</button>
+                        <button class="filter-btn" data-filter="PC" data-lang="filter_pc">PCs</button>
+                        <button class="filter-btn" data-filter="Laptop" data-lang="filter_laptop">Laptops</button>
+                        <button class="filter-btn" data-filter="Mobile" data-lang="filter_mobile">Mobiles</button>
+                    </div>
+                    <div class="search-box">
+                        <input type="text" id="search-input" placeholder="Search products...">
+                        <i data-feather="search"></i>
+                    </div>
+                </div>
+                <div class="products-grid" id="products-grid">
+                    <!-- Products will be injected here by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section">
+            <div class="container">
+                <div class="contact-info reveal">
+                    <h3 data-lang="contact_title">Get In Touch</h3>
+                    <p data-lang="contact_desc">Have a question or need a quote? We're here to help. Reach out to us through any of the channels below.</p>
+                    <div class="info-item">
+                        <i class="icon" data-feather="map-pin"></i>
+                        <div>
+                            <strong data-lang="contact_address_label">Address</strong>
+                            <p><a href="https://www.google.com/maps/search/?api=1&query=Dely+Brahim+Algeria" target="_blank" data-lang="contact_address">Dely Brahim, Algeria</a></p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="icon" data-feather="phone"></i>
+                        <div>
+                            <strong data-lang="contact_phone_label">Phone</strong>
+                            <p><a href="tel:+213561161323">05 61 16 13 23</a></p>
+                        </div>
+                    </div>
+                     <div class="info-item">
+                        <i class="icon" data-feather="mail"></i>
+                        <div>
+                            <strong data-lang="contact_email_label">Email</strong>
+                            <p><a href="mailto:contact@solutionmaxi.dz">contact@solutionmaxi.dz</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form reveal">
+                    <h3 data-lang="contact_form_title">Send Us a Message</h3>
+                    <form id="contact-form-element" action="https://formspree.io/f/xblagdvv" method="POST">
+                        <div class="form-group">
+                            <input type="text" name="name" placeholder="Your Name" required data-lang-placeholder="form_name">
+                        </div>
+                        <div class="form-group">
+                            <input type="email" name="email" placeholder="Your Email" required data-lang-placeholder="form_email">
+                        </div>
+                        <div class="form-group">
+                            <textarea name="message" rows="5" placeholder="Your Message" required data-lang-placeholder="form_message"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" data-lang="form_submit">Send Message</button>
+                    </form>
+                    <p id="contact-form-status" style="margin-top: 15px;"></p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <h4 class="logo">Solution<span>Maxi</span></h4>
+                    <p data-lang="footer_desc">Your trusted partner for technology and IT solutions in Algeria since 2006.</p>
+                    <div class="social-links">
+                        <a href="#"><i data-feather="facebook"></i></a>
+                        <a href="#"><i data-feather="twitter"></i></a>
+                        <a href="#"><i data-feather="instagram"></i></a>
+                        <a href="#"><i data-feather="linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4 data-lang="footer_links">Quick Links</h4>
+                    <ul>
+                        <li><a href="#about" data-lang="nav_about">About</a></li>
+                        <li><a href="#services" data-lang="nav_services">Services</a></li>
+                        <li><a href="#products" data-lang="nav_products">Products</a></li>
+                        <li><a href="#contact" data-lang="nav_contact">Contact</a></li>
+                    </ul>
+                </div>
+                 <div class="footer-col">
+                    <h4 data-lang="footer_legal">Legal</h4>
+                    <ul>
+                        <li><a href="#" data-lang="footer_privacy">Privacy Policy</a></li>
+                        <li><a href="#" data-lang="footer_terms">Terms of Service</a></li>
+                        <li><a href="#" data-lang="footer_shipping">Shipping Policy</a></li>
+                    </ul>
+                </div>
+                 <div class="footer-col">
+                    <h4 data-lang="footer_contact_us">Contact Us</h4>
+                    <p>Dely Brahim, Algeria</p>
+                    <p>Phone: 05 61 16 13 23</p>
+                    <p>Email: contact@solutionmaxi.dz</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; <span id="copyright-year">2025</span> Solution Maxi. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Side Panels -->
+    <div id="cart-panel" class="side-panel">
+        <div class="panel-header">
+            <h3 data-lang="cart_title">Your Cart</h3>
+            <button class="icon-btn close-panel"><i data-feather="x"></i></button>
+        </div>
+        <div class="panel-body" id="cart-items"></div>
+        <div class="panel-footer">
+            <div class="cart-total">
+                <span data-lang="cart_total">Total:</span>
+                <span id="cart-total-price">0.00 DZD</span>
+            </div>
+            <button class="btn btn-primary" style="width: 100%;" id="checkout-btn" data-lang="cart_checkout">Checkout</button>
+        </div>
+    </div>
+    
+    <div id="wishlist-panel" class="side-panel">
+        <div class="panel-header">
+            <h3 data-lang="wishlist_title">Your Wishlist</h3>
+            <button class="icon-btn close-panel"><i data-feather="x"></i></button>
+        </div>
+        <div class="panel-body" id="wishlist-items"></div>
+    </div>
+
+    <!-- Modals -->
+    <div id="quick-view-modal" class="modal-overlay">
+        <div class="modal-container">
+            <button class="close-modal"><i data-feather="x"></i></button>
+            <div id="quick-view-content"></div>
+        </div>
+    </div>
+    
+    <div id="checkout-modal" class="modal-overlay">
+        <div class="modal-container">
+            <button class="close-modal"><i data-feather="x"></i></button>
+            <h2 data-lang="checkout_title">Checkout</h2>
+            <form id="checkout-form" action="https://formspree.io/f/mzzaeraw" method="POST">
+                <div class="form-group">
+                    <input type="text" name="name" placeholder="Full Name" required data-lang-placeholder="form_name">
+                </div>
+                <div class="form-group">
+                    <input type="email" name="email" placeholder="Email Address" required data-lang-placeholder="form_email">
+                </div>
+                <div class="form-group">
+                    <input type="tel" name="phone" placeholder="Phone Number" required data-lang-placeholder="form_phone">
+                </div>
+                <div class="form-group">
+                    <textarea name="address" rows="3" placeholder="Shipping Address" required data-lang-placeholder="form_address"></textarea>
+                </div>
+                <input type="hidden" name="order_summary" id="order_summary_input">
+                <input type="hidden" name="total_price" id="total_price_input">
+                <button type="submit" class="btn btn-primary" data-lang="checkout_submit">Place Order</button>
+            </form>
+            <p id="checkout-form-status" style="margin-top: 15px;"></p>
+        </div>
+    </div>
+
+    <!-- Scroll to Top Button -->
+    <button id="scroll-to-top"><i data-feather="arrow-up"></i></button>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    // --- ICONS ---
+    feather.replace();
+
+    // --- TRANSLATIONS ---
+    const translations = {
+        fr: {
+            nav_home: "Accueil", nav_about: "À Propos", nav_services: "Services", nav_products: "Produits", nav_contact: "Contact",
+            hero_title: "Propulser Votre <span class='highlight'>Avenir</span>, Aujourd'hui.",
+            hero_subtitle: "Votre destination premium en Algérie pour les dernières technologies et solutions informatiques expertes, façonnant l'innovation depuis 2006.",
+            hero_cta: "Découvrir les Produits",
+            about_tag: "Depuis 2006", about_title: "19 Ans d'Excellence Technologique",
+            about_desc1: "Fondée à Dely Brahim, en Algérie, Solution Maxi a commencé comme une vision d'apporter une technologie de classe mondiale et des services informatiques à notre communauté. Depuis près de deux décennies, nous sommes à la pointe de la révolution numérique, autonomisant les entreprises et les particuliers avec des solutions de pointe et un soutien indéfectible.",
+            about_desc2: "Notre parcours est fait de passion, d'innovation et d'un engagement profond envers la satisfaction du client. Nous ne vendons pas seulement des produits ; nous construisons des relations durables basées sur la confiance et l'expertise.",
+            about_stat1: "Clients Satisfaits", about_stat2: "Produits Vendus", about_stat3: "Experts IT", about_stat4: "Années d'Expérience",
+            services_tag: "Notre Expertise", services_title: "Solutions Informatiques Complètes",
+            service1_title: "Réparation & Support IT", service1_desc: "Diagnostics et réparations rapides et fiables pour tous vos appareils. Nos experts sont prêts à résoudre tout problème technique.",
+            service2_title: "Solutions Réseau", service2_desc: "Des installations WiFi domestiques aux réseaux d'entreprise complexes, nous assurons une connectivité transparente et sécurisée.",
+            service3_title: "PC sur Mesure", service3_desc: "Vous en rêvez, nous le construisons. Des PC personnalisés hautes performances pour le jeu, la conception et les charges de travail professionnelles.",
+            service4_title: "Développement Web", service4_desc: "Des sites web modernes, réactifs et puissants pour rehausser votre présence en ligne et développer votre entreprise.",
+            products_tag: "Notre Collection", products_title: "Technologie de Pointe",
+            filter_all: "Tout", filter_pc: "PC de Bureau", filter_laptop: "Laptops", filter_mobile: "Mobiles",
+            contact_title: "Contactez-Nous", contact_desc: "Vous avez une question ou besoin d'un devis ? Nous sommes là pour vous aider. Contactez-nous via l'un des canaux ci-dessous.",
+            contact_address_label: "Adresse", contact_address: "Dely Brahim, Algérie",
+            contact_phone_label: "Téléphone", contact_email_label: "Email",
+            contact_form_title: "Envoyez-Nous un Message", form_name: "Votre Nom", form_email: "Votre Email", form_message: "Votre Message", form_submit: "Envoyer le Message",
+            footer_desc: "Votre partenaire de confiance pour la technologie et les solutions informatiques en Algérie depuis 2006.",
+            footer_links: "Liens Rapides", footer_legal: "Légal", footer_privacy: "Politique de Confidentialité", footer_terms: "Conditions de Service", footer_shipping: "Politique d'Expédition", footer_contact_us: "Nous Contacter",
+            cart_title: "Votre Panier", cart_total: "Total:", cart_checkout: "Paiement",
+            wishlist_title: "Votre Liste de Souhaits",
+            checkout_title: "Paiement", form_phone: "Numéro de Téléphone", form_address: "Adresse de Livraison", checkout_submit: "Passer la Commande"
+        },
+        ar: {
+            nav_home: "الرئيسية", nav_about: "من نحن", nav_services: "خدماتنا", nav_products: "منتجاتنا", nav_contact: "اتصل بنا",
+            hero_title: "نشغل <span class='highlight'>مستقبلك</span>، اليوم.",
+            hero_subtitle: "وجهتك المتميزة في الجزائر لأحدث التقنيات وحلول تكنولوجيا المعلومات المتخصصة، نرسم الابتكار منذ 2006.",
+            hero_cta: "اكتشف المنتجات",
+            about_tag: "منذ 2006", about_title: "19 عامًا من التميز التقني",
+            about_desc1: "تأسست سوليوشن ماكسي في دالي براهيم، الجزائر، كرؤية لجلب التكنولوجيا العالمية وخدمات تكنولوجيا المعلومات لمجتمعنا. على مدى عقدين تقريبًا، كنا في طليعة الثورة الرقمية، نمكّن الشركات والأفراد بحلول متطورة ودعم لا يتزعزع.",
+            about_desc2: "رحلتنا هي رحلة شغف وابتكار والتزام عميق برضا العملاء. نحن لا نبيع المنتجات فحسب؛ بل نبني علاقات دائمة مبنية على الثقة والخبرة.",
+            about_stat1: "عميل سعيد", about_stat2: "منتج مباع", about_stat3: "خبير تقني", about_stat4: "سنة في الخدمة",
+            services_tag: "خبراتنا", services_title: "حلول تقنية شاملة",
+            service1_title: "إصلاح ودعم فني", service1_desc: "تشخيص وإصلاح سريع وموثوق لجميع أجهزتك. خبراؤنا مستعدون لحل أي مشكلة تقنية.",
+            service2_title: "حلول الشبكات", service2_desc: "من إعدادات الواي فاي المنزلية إلى شبكات الشركات المعقدة، نضمن اتصالاً سلسًا وآمنًا.",
+            service3_title: "تجميع أجهزة مخصصة", service3_desc: "احلم به، ونحن نبنيه. أجهزة كمبيوتر مخصصة عالية الأداء للألعاب والتصميم والأعمال الاحترافية.",
+            service4_title: "تطوير الويب", service4_desc: "مواقع ويب حديثة ومتجاوبة وقوية لتعزيز وجودك على الإنترنت وتنمية أعمالك.",
+            products_tag: "مجموعتنا", products_title: "تقنيات مميزة",
+            filter_all: "الكل", filter_pc: "أجهزة الكمبيوتر", filter_laptop: "لابتوب", filter_mobile: "هواتف",
+            contact_title: "تواصل معنا", contact_desc: "هل لديك سؤال أو تحتاج إلى عرض أسعار؟ نحن هنا للمساعدة. تواصل معنا عبر أي من القنوات أدناه.",
+            contact_address_label: "العنوان", contact_address: "دالي براهيم، الجزائر",
+            contact_phone_label: "الهاتف", contact_email_label: "البريد الإلكتروني",
+            contact_form_title: "أرسل لنا رسالة", form_name: "اسمك", form_email: "بريدك الإلكتروني", form_message: "رسالتك", form_submit: "إرسال الرسالة",
+            footer_desc: "شريكك الموثوق للتكنولوجيا وحلول تكنولوجيا المعلومات في الجزائر منذ عام 2006.",
+            footer_links: "روابط سريعة", footer_legal: "قانوني", footer_privacy: "سياسة الخصوصية", footer_terms: "شروط الخدمة", footer_shipping: "سياسة الشحن", footer_contact_us: "اتصل بنا",
+            cart_title: "سلّتك", cart_total: "المجموع:", cart_checkout: "الدفع",
+            wishlist_title: "قائمة أمنياتك",
+            checkout_title: "الدفع", form_phone: "رقم الهاتف", form_address: "عنوان الشحن", checkout_submit: "تأكيد الطلب"
+        }
+    };
+    
+    // --- PRODUCT DATA ---
+    const products = [
+        // Laptops
+        {id: 1, name: "Zenith ProBook X1", category: "Laptop", price: 210000, image: "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?q=80&w=800", stock: 15, isNew: true},
+        {id: 2, name: "AuraSlim Air", category: "Laptop", price: 185000, image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=800", stock: 22, isNew: false},
+        {id: 3, name: "NovaForce Gamer", category: "Laptop", price: 320000, image: "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?q=80&w=800", stock: 8, isNew: true},
+        {id: 4, name: "Orion Workstation", category: "Laptop", price: 280000, image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?q=80&w=800", stock: 12, isNew: false},
+        {id: 5, name: "EchoBook Lite", category: "Laptop", price: 95000, image: "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?q=80&w=800", stock: 30, isNew: false},
+        {id: 6, name: "QuantumBook 2-in-1", category: "Laptop", price: 235000, image: "https://images.unsplash.com/photo-1593642702821-c8da6771f0c6?q=80&w=800", stock: 18, isNew: true},
+        // PCs
+        {id: 7, name: "Vortex Gaming Rig", category: "PC", price: 450000, image: "https://images.unsplash.com/photo-1593640408182-31c70c8268f5?q=80&w=800", stock: 5, isNew: true},
+        {id: 8, name: "Fusion Office Pro", category: "PC", price: 150000, image: "https://images.unsplash.com/photo-1587573089734-09cb69c0f2b9?q=80&w=800", stock: 25, isNew: false},
+        {id: 9, name: "Nebula Design Station", category: "PC", price: 380000, image: "https://images.unsplash.com/photo-1614624532983-4ce03382d63d?q=80&w=800", stock: 7, isNew: false},
+        {id: 10, name: "CompactCube Mini", category: "PC", price: 110000, image: "https://images.unsplash.com/photo-1604367233951-3298356d2258?q=80&w=800", stock: 15, isNew: true},
+        {id: 11, name: "Titan All-in-One", category: "PC", price: 220000, image: "https://images.unsplash.com/photo-1598252528620-1b2a95c47c23?q=80&w=800", stock: 14, isNew: false},
+        {id: 12, name: "Stealth Silent PC", category: "PC", price: 290000, image: "https://images.unsplash.com/photo-1555618423-64a412ac30a4?q=80&w=800", stock: 10, isNew: true},
+        // Mobiles
+        {id: 13, name: "StellarPhone 1 Pro", category: "Mobile", price: 160000, image: "https://images.unsplash.com/photo-1601784551446-20c9e07cdbf1?q=80&w=800", stock: 40, isNew: true},
+        {id: 14, name: "GalaxyFold Z", category: "Mobile", price: 250000, image: "https://images.unsplash.com/photo-1610792516307-ea5acd9c3b00?q=80&w=800", stock: 10, isNew: true},
+        {id: 15, name: "Pixelight 7", category: "Mobile", price: 125000, image: "https://images.unsplash.com/photo-1567581935884-3349723552ca?q=80&w=800", stock: 50, isNew: false},
+        {id: 16, name: "CyberPhone Max", category: "Mobile", price: 195000, image: "https://images.unsplash.com/photo-1592205858990-a38691500853?q=80&w=800", stock: 25, isNew: false},
+        {id: 17, name: "Connect Simple", category: "Mobile", price: 55000, image: "https://images.unsplash.com/photo-1580910051074-3eb694886505?q=80&w=800", stock: 100, isNew: false},
+        {id: 18, name: "NovaNote Ultra", category: "Mobile", price: 215000, image: "https://images.unsplash.com/photo-1533022139390-e31c489d97b2?q=80&w=800", stock: 20, isNew: true},
+    ];
+
+
+    // --- STATE MANAGEMENT ---
+    let currentTheme = localStorage.getItem('theme') || 'dark';
+    const storedLang = localStorage.getItem('language');
+    let currentLang = (storedLang === 'fr' || storedLang === 'ar') ? storedLang : 'fr';
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+    
+    // --- ELEMENT SELECTORS ---
+    const body = document.body;
+    const loadingOverlay = document.getElementById('loading-overlay');
+    const progressBar = document.getElementById('progress-bar');
+    const header = document.querySelector('.header');
+    const navLinksContainer = document.getElementById('nav-links');
+    const menuToggle = document.getElementById('menu-toggle');
+    const themeToggleBtn = document.getElementById('theme-toggle-btn');
+    const langToggleBtn = document.getElementById('lang-toggle-btn');
+    const productsGrid = document.getElementById('products-grid');
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const searchInput = document.getElementById('search-input');
+    const cartBtn = document.getElementById('cart-btn');
+    const wishlistBtn = document.getElementById('wishlist-btn');
+    const cartPanel = document.getElementById('cart-panel');
+    const wishlistPanel = document.getElementById('wishlist-panel');
+    const closePanelBtns = document.querySelectorAll('.close-panel');
+    const cartItemsContainer = document.getElementById('cart-items');
+    const wishlistItemsContainer = document.getElementById('wishlist-items');
+    const cartBadge = document.querySelector('.cart-badge');
+    const wishlistBadge = document.querySelector('.wishlist-badge');
+    const cartTotalPriceEl = document.getElementById('cart-total-price');
+    const quickViewModal = document.getElementById('quick-view-modal');
+    const checkoutModal = document.getElementById('checkout-modal');
+    const checkoutBtn = document.getElementById('checkout-btn');
+    const scrollToTopBtn = document.getElementById('scroll-to-top');
+    const copyrightYear = document.getElementById('copyright-year');
+    
+    // --- INITIALIZATION ---
+    const init = () => {
+        applyTheme(currentTheme);
+        applyLanguage(currentLang);
+        renderProducts('all');
+        updateCart();
+        updateWishlist();
+        setupEventListeners();
+        animateCounters();
+        startIntersectionObserver();
+        copyrightYear.textContent = new Date().getFullYear();
+        setTimeout(() => {
+            loadingOverlay.style.opacity = '0';
+            setTimeout(() => loadingOverlay.style.display = 'none', 500);
+        }, 500);
+    };
+
+    // --- THEME & LANGUAGE ---
+    const applyTheme = (theme) => {
+        body.classList.toggle('dark-mode', theme === 'dark');
+        themeToggleBtn.innerHTML = theme === 'dark' ? feather.icons.sun.toSvg() : feather.icons.moon.toSvg();
+        localStorage.setItem('theme', theme);
+        currentTheme = theme;
+    };
+    
+    const toggleTheme = () => applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
+
+    const applyLanguage = (lang) => {
+        document.documentElement.lang = lang;
+        document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+        langToggleBtn.textContent = lang === 'fr' ? 'AR' : 'FR';
+        document.querySelectorAll('[data-lang]').forEach(el => {
+            const key = el.getAttribute('data-lang');
+            if(translations[lang][key]) {
+                el.innerHTML = translations[lang][key];
+            }
+        });
+        document.querySelectorAll('[data-lang-placeholder]').forEach(el => {
+             const key = el.getAttribute('data-lang-placeholder');
+            if(translations[lang][key]) {
+                el.placeholder = translations[lang][key];
+            }
+        });
+        localStorage.setItem('language', lang);
+        currentLang = lang;
+    };
+    
+    const toggleLanguage = () => applyLanguage(currentLang === 'fr' ? 'ar' : 'fr');
+    
+    // --- CANVAS PARTICLE ANIMATION ---
+    /*
+    const canvas = document.getElementById('particle-canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    let particlesArray;
+
+    let mouse = { x: null, y: null, radius: (canvas.height/80) * (canvas.width/80) };
+    window.addEventListener('mousemove', e => {
+        mouse.x = e.x;
+        mouse.y = e.y;
+    });
+
+    class Particle {
+        constructor(x, y, directionX, directionY, size, color) {
+            this.x = x; this.y = y; this.directionX = directionX;
+            this.directionY = directionY; this.size = size; this.color = color;
+        }
+        draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+            ctx.fillStyle = this.color;
+            ctx.fill();
+        }
+        update() {
+            if (this.x > canvas.width || this.x < 0) this.directionX = -this.directionX;
+            if (this.y > canvas.height || this.y < 0) this.directionY = -this.directionY;
+            let dx = mouse.x - this.x;
+            let dy = mouse.y - this.y;
+            let distance = Math.sqrt(dx*dx + dy*dy);
+            if (distance < mouse.radius + this.size) {
+                if (mouse.x < this.x && this.x < canvas.width - this.size * 10) this.x += 10;
+                if (mouse.x > this.x && this.x > this.size * 10) this.x -= 10;
+                if (mouse.y < this.y && this.y < canvas.height - this.size * 10) this.y += 10;
+                if (mouse.y > this.y && this.y > this.size * 10) this.y -= 10;
+            }
+            this.x += this.directionX;
+            this.y += this.directionY;
+            this.draw();
+        }
+    }
+
+    function initParticles() {
+        particlesArray = [];
+        let numberOfParticles = (canvas.height * canvas.width) / 9000;
+        let particleColor = currentTheme === 'dark' ? 'rgba(255, 122, 0, 0.3)' : 'rgba(11, 11, 11, 0.3)';
+        for (let i=0; i < numberOfParticles; i++) {
+            let size = (Math.random() * 5) + 1;
+            let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
+            let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
+            let directionX = (Math.random() * 5) - 2.5;
+            let directionY = (Math.random() * 5) - 2.5;
+            particlesArray.push(new Particle(x, y, directionX, directionY, size, particleColor));
+        }
+    }
+
+    function animateParticles() {
+        requestAnimationFrame(animateParticles);
+        ctx.clearRect(0, 0, innerWidth, innerHeight);
+        for (let i = 0; i < particlesArray.length; i++) {
+            particlesArray[i].update();
+        }
+        connectParticles();
+    }
+
+    function connectParticles() {
+        let opacityValue = 1;
+        let lineColor = currentTheme === 'dark' ? 'rgba(255, 122, 0, 0.1)' : 'rgba(11, 11, 11, 0.1)';
+        for (let a = 0; a < particlesArray.length; a++) {
+            for (let b = a; b < particlesArray.length; b++) {
+                let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x)) + ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
+                if (distance < (canvas.width/7) * (canvas.height/7)) {
+                    opacityValue = 1 - (distance/20000);
+                    ctx.strokeStyle = lineColor.replace(/,\s*\d+\.\d+\)/, `, ${opacityValue})`);
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+                    ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+                    ctx.stroke();
+                }
+            }
+        }
+    }
+    
+    window.addEventListener('resize', () => {
+        canvas.width = innerWidth;
+        canvas.height = innerHeight;
+        mouse.radius = (canvas.height/80) * (canvas.width/80);
+        initParticles();
+    });
+    
+    initParticles();
+    animateParticles();
+    
+    // Update particle color on theme change
+    themeToggleBtn.addEventListener('click', () => { setTimeout(initParticles, 100); });
+    */
+    
+    // --- UI & INTERACTION LOGIC ---
+    // Header Scroll
+    const handleScroll = () => {
+        header.classList.toggle('scrolled', window.scrollY > 50);
+        scrollToTopBtn.classList.toggle('visible', window.scrollY > 500);
+        
+        // Active Nav Link
+        const sections = document.querySelectorAll('section');
+        let currentSection = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (window.scrollY >= sectionTop - 100) {
+                currentSection = section.getAttribute('id');
+            }
+        });
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${currentSection}`) {
+                link.classList.add('active');
+            }
+        });
+        
+        // Scroll Progress Bar
+        const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrolled = (window.scrollY / scrollableHeight) * 100;
+        progressBar.style.width = `${scrolled}%`;
+    };
+
+    // Mobile Menu
+    const toggleMenu = () => navLinksContainer.classList.toggle('active');
+    
+    // Animated Counters
+    function animateCounters() {
+        const counters = document.querySelectorAll('.counter');
+        const speed = 200; 
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counter = entry.target;
+                    const target = +counter.getAttribute('data-target');
+                    const updateCount = () => {
+                        const count = +counter.innerText;
+                        const inc = target / speed;
+                        if (count < target) {
+                            counter.innerText = Math.ceil(count + inc);
+                            setTimeout(updateCount, 1);
+                        } else {
+                            counter.innerText = target;
+                        }
+                    };
+                    updateCount();
+                    observer.unobserve(counter);
+                }
+            });
+        }, { threshold: 0.5 });
+        counters.forEach(counter => observer.observe(counter));
+    }
+    
+    // Intersection Observer for reveal animations
+    function startIntersectionObserver() {
+        const revealElements = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    entry.target.style.transitionDelay = `${index * 100}ms`;
+                    entry.target.classList.add('in-view');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        revealElements.forEach(el => observer.observe(el));
+    }
+
+    // --- PRODUCT LOGIC ---
+    const renderProducts = (category, searchTerm = '') => {
+        productsGrid.innerHTML = '';
+        let filteredProducts = products;
+        if (category !== 'all') {
+            filteredProducts = filteredProducts.filter(p => p.category === category);
+        }
+        if (searchTerm) {
+            filteredProducts = filteredProducts.filter(p => 
+                p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                p.category.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+        }
+
+        filteredProducts.forEach(product => {
+            const isWishlisted = wishlist.some(item => item.id === product.id);
+            const card = document.createElement('div');
+            card.className = 'product-card reveal';
+            card.dataset.id = product.id;
+            card.innerHTML = `
+                <div class="product-image">
+                    <img src="${product.image}&w=400&h=400" alt="${product.name}" loading="lazy">
+                    <div class="product-badges">
+                        ${product.isNew ? '<span class="badge new">New</span>' : ''}
+                    </div>
+                    <button class="wishlist-btn-card ${isWishlisted ? 'active' : ''}" data-id="${product.id}">
+                        <i data-feather="heart"></i>
+                    </button>
+                </div>
+                <div class="product-info">
+                    <p class="product-category">${product.category}</p>
+                    <h4 class="product-title">${product.name}</h4>
+                    <p class="product-price">${product.price.toLocaleString()} DZD</p>
+                    <div class="product-actions">
+                        <button class="btn btn-secondary quick-view-btn" data-id="${product.id}">View</button>
+                        <button class="btn btn-primary add-to-cart-btn" data-id="${product.id}">Add</button>
+                    </div>
+                </div>
+            `;
+            productsGrid.appendChild(card);
+        });
+        feather.replace();
+    };
+
+    const handleFilterClick = (e) => {
+        filterBtns.forEach(btn => btn.classList.remove('active'));
+        e.target.classList.add('active');
+        renderProducts(e.target.dataset.filter, searchInput.value);
+    };
+    
+    const handleSearchInput = (e) => {
+        const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
+        renderProducts(activeFilter, e.target.value);
+    };
+
+    // --- CART LOGIC ---
+    const flyToCartAnimation = (target) => {
+        const img = target.closest('.product-card').querySelector('img');
+        if (!img) return;
+        
+        const rect = img.getBoundingClientRect();
+        const flyingImg = img.cloneNode();
+        flyingImg.style.position = 'fixed';
+        flyingImg.style.left = `${rect.left}px`;
+        flyingImg.style.top = `${rect.top}px`;
+        flyingImg.style.width = `${rect.width}px`;
+        flyingImg.style.height = `${rect.height}px`;
+        flyingImg.style.zIndex = '2000';
+        flyingImg.style.transition = 'all 0.8s ease-in-out';
+        document.body.appendChild(flyingImg);
+        
+        const cartRect = cartBtn.getBoundingClientRect();
+        
+        requestAnimationFrame(() => {
+            flyingImg.style.left = `${cartRect.left + cartRect.width / 2}px`;
+            flyingImg.style.top = `${cartRect.top + cartRect.height / 2}px`;
+            flyingImg.style.width = '0px';
+            flyingImg.style.height = '0px';
+            flyingImg.style.transform = 'rotate(360deg)';
+            flyingImg.style.opacity = '0';
+        });
+
+        setTimeout(() => {
+            document.body.removeChild(flyingImg);
+        }, 800);
+    };
+    
+    const addToCart = (id, target) => {
+        const product = products.find(p => p.id === id);
+        const cartItem = cart.find(item => item.id === id);
+        if (cartItem) {
+            cartItem.quantity++;
+        } else {
+            cart.push({ ...product, quantity: 1 });
+        }
+        flyToCartAnimation(target);
+        updateCart();
+    };
+    
+    const updateQuantity = (id, change) => {
+        const cartItem = cart.find(item => item.id === id);
+        if (cartItem) {
+            cartItem.quantity += change;
+            if (cartItem.quantity <= 0) {
+                removeFromCart(id);
+            } else {
+                updateCart();
+            }
+        }
+    };
+    
+    const removeFromCart = (id) => {
+        cart = cart.filter(item => item.id !== id);
+        updateCart();
+    };
+
+    const updateCart = () => {
+        cartItemsContainer.innerHTML = '';
+        if(cart.length === 0) {
+            cartItemsContainer.innerHTML = '<p>Your cart is empty.</p>';
+        } else {
+            cart.forEach(item => {
+                const cartItemEl = document.createElement('div');
+                cartItemEl.className = 'cart-item';
+                cartItemEl.innerHTML = `
+                    <div class="cart-item-img"><img src="${item.image}&w=80&h=80" alt="${item.name}"></div>
+                    <div class="cart-item-info">
+                        <h4>${item.name}</h4>
+                        <p>${item.price.toLocaleString()} DZD</p>
+                        <div class="quantity-controls">
+                            <button class="btn-quantity" data-id="${item.id}" data-change="-1">-</button>
+                            <span>${item.quantity}</span>
+                            <button class="btn-quantity" data-id="${item.id}" data-change="1">+</button>
+                        </div>
+                    </div>
+                    <button class="remove-from-cart" data-id="${item.id}"><i data-feather="trash-2"></i></button>
+                `;
+                cartItemsContainer.appendChild(cartItemEl);
+            });
+        }
+        
+        const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+        cartTotalPriceEl.textContent = `${total.toLocaleString()} DZD`;
+        cartBadge.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+        
+        localStorage.setItem('cart', JSON.stringify(cart));
+        feather.replace();
+    };
+    
+    // --- WISHLIST LOGIC ---
+    const toggleWishlist = (id) => {
+        const product = products.find(p => p.id === id);
+        const isInWishlist = wishlist.some(item => item.id === id);
+        if (isInWishlist) {
+            wishlist = wishlist.filter(item => item.id !== id);
+        } else {
+            wishlist.push(product);
+        }
+        updateWishlist();
+        const productCard = document.querySelector(`.product-card[data-id='${id}'] .wishlist-btn-card`);
+        if (productCard) productCard.classList.toggle('active', !isInWishlist);
+    };
+
+    const updateWishlist = () => {
+        wishlistItemsContainer.innerHTML = '';
+        if(wishlist.length === 0) {
+            wishlistItemsContainer.innerHTML = '<p>Your wishlist is empty.</p>';
+        } else {
+            wishlist.forEach(item => {
+                const wishlistItemEl = document.createElement('div');
+                wishlistItemEl.className = 'wishlist-item';
+                wishlistItemEl.innerHTML = `
+                    <div class="wishlist-item-img"><img src="${item.image}&w=80&h=80" alt="${item.name}"></div>
+                    <div class="wishlist-item-info">
+                        <h4>${item.name}</h4>
+                        <p>${item.price.toLocaleString()} DZD</p>
+                    </div>
+                    <button class="remove-from-wishlist" data-id="${item.id}"><i data-feather="x-circle"></i></button>
+                `;
+                wishlistItemsContainer.appendChild(wishlistItemEl);
+            });
+        }
+        wishlistBadge.textContent = wishlist.length;
+        localStorage.setItem('wishlist', JSON.stringify(wishlist));
+        feather.replace();
+    };
+
+    // --- MODAL & PANEL LOGIC ---
+    const openPanel = (panel) => panel.classList.add('open');
+    const closePanel = (panel) => panel.classList.remove('open');
+    const openModal = (modal) => modal.classList.add('open');
+    const closeModal = (modal) => modal.classList.remove('open');
+    
+    const showQuickView = (id) => {
+        const product = products.find(p => p.id === id);
+        const quickViewContent = document.getElementById('quick-view-content');
+        quickViewContent.innerHTML = `
+            <div class="quick-view-images">
+                <img src="${product.image}&w=400&h=400" alt="${product.name}">
+            </div>
+            <div class="quick-view-details">
+                <h3>${product.name}</h3>
+                <p class="product-category">${product.category}</p>
+                <h2>${product.price.toLocaleString()} DZD</h2>
+                <p>A short description of the product would go here. Highlighting its key features and benefits for the customer.</p>
+                <p><strong>Stock:</strong> ${product.stock} available</p>
+                <button class="btn btn-primary add-to-cart-btn" data-id="${product.id}">Add to Cart</button>
+            </div>
+        `;
+        openModal(quickViewModal);
+    };
+
+    // --- FORM HANDLING ---
+    const handleFormSubmit = async (form, statusEl) => {
+        const data = new FormData(form);
+        try {
+            const response = await fetch(form.action, {
+                method: 'POST',
+                body: data,
+                headers: { 'Accept': 'application/json' }
+            });
+            if (response.ok) {
+                statusEl.textContent = "Thanks for your submission!";
+                form.reset();
+            } else {
+                statusEl.textContent = "Oops! There was a problem submitting your form.";
+            }
+        } catch (error) {
+            statusEl.textContent = "Oops! There was a problem submitting your form.";
+        }
+    };
+    
+    // --- EVENT LISTENERS ---
+    function setupEventListeners() {
+        window.addEventListener('scroll', handleScroll);
+        
+        themeToggleBtn.addEventListener('click', toggleTheme);
+        langToggleBtn.addEventListener('click', toggleLanguage);
+        menuToggle.addEventListener('click', toggleMenu);
+        
+        filterBtns.forEach(btn => btn.addEventListener('click', handleFilterClick));
+        searchInput.addEventListener('input', handleSearchInput);
+        
+        productsGrid.addEventListener('click', e => {
+            const addToCartBtn = e.target.closest('.add-to-cart-btn');
+            const quickViewBtn = e.target.closest('.quick-view-btn');
+            const wishlistBtnCard = e.target.closest('.wishlist-btn-card');
+            
+            if (addToCartBtn) {
+                addToCart(parseInt(addToCartBtn.dataset.id), e.target);
+            } else if (quickViewBtn) {
+                showQuickView(parseInt(quickViewBtn.dataset.id));
+            } else if (wishlistBtnCard) {
+                toggleWishlist(parseInt(wishlistBtnCard.dataset.id));
+            }
+        });
+        
+        cartBtn.addEventListener('click', () => openPanel(cartPanel));
+        wishlistBtn.addEventListener('click', () => openPanel(wishlistPanel));
+        closePanelBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                closePanel(e.target.closest('.side-panel'));
+            });
+        });
+        
+        cartItemsContainer.addEventListener('click', e => {
+            if (e.target.closest('.remove-from-cart')) {
+                removeFromCart(parseInt(e.target.closest('.remove-from-cart').dataset.id));
+            }
+            if (e.target.closest('.btn-quantity')) {
+                const btn = e.target.closest('.btn-quantity');
+                updateQuantity(parseInt(btn.dataset.id), parseInt(btn.dataset.change));
+            }
+        });
+
+        wishlistItemsContainer.addEventListener('click', e => {
+             if (e.target.closest('.remove-from-wishlist')) {
+                toggleWishlist(parseInt(e.target.closest('.remove-from-wishlist').dataset.id));
+            }
+        });
+        
+        [quickViewModal, checkoutModal].forEach(modal => {
+            modal.addEventListener('click', e => {
+                if (e.target === modal || e.target.closest('.close-modal')) {
+                    closeModal(modal);
+                }
+            });
+        });
+
+        document.getElementById('quick-view-content').addEventListener('click', e => {
+            if (e.target.matches('.add-to-cart-btn')) {
+                addToCart(parseInt(e.target.dataset.id), e.target);
+            }
+        });
+        
+        checkoutBtn.addEventListener('click', () => {
+            if (cart.length > 0) {
+                const summary = cart.map(item => `${item.name} (x${item.quantity})`).join(', ');
+                const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+                document.getElementById('order_summary_input').value = summary;
+                document.getElementById('total_price_input').value = `${total.toLocaleString()} DZD`;
+                openModal(checkoutModal);
+            } else {
+                alert('Your cart is empty.');
+            }
+        });
+        
+        document.getElementById('contact-form-element').addEventListener('submit', function(e) {
+            e.preventDefault();
+            handleFormSubmit(this, document.getElementById('contact-form-status'));
+        });
+        
+        document.getElementById('checkout-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            handleFormSubmit(this, document.getElementById('checkout-form-status')).then(() => {
+                if(document.getElementById('checkout-form-status').textContent.includes('Thanks')) {
+                    cart = [];
+                    updateCart();
+                    setTimeout(() => closeModal(checkoutModal), 2000);
+                }
+            });
+        });
+        
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
+
+    // --- START THE APP ---
+    init();
+});
+</script>
+</body>
+</html>
+
